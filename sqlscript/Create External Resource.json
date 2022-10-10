@@ -1,0 +1,17 @@
+{
+	"name": "Create External Resource",
+	"properties": {
+		"content": {
+			"query": "\nUSE serverlesspool\nGO\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Cloud@123'\n\nCREATE DATABASE SCOPED CREDENTIAL credential_name\nWITH IDENTITY = 'SHARED ACCESS SIGNATURE',\nSECRET = '?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupyx&se=2022-10-28T00:37:07Z&st=2022-10-06T16:37:07Z&spr=https&sig=WzBTRhiS%2FtqsTKp2CM7noM5L8g1Q30I3gE%2FoSLgmmoI%3D' \nGO\n\nCREATE EXTERNAL DATA SOURCE DEMODATASOURCE WITH (\n    LOCATION = 'https://cloudconnectiongen2.dfs.core.windows.net/',\n    CREDENTIAL=credential_name\n);\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "serverlesspool",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

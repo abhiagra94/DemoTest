@@ -1,0 +1,17 @@
+{
+	"name": "Crate External Resource",
+	"properties": {
+		"content": {
+			"query": "USE serverlesspooltest\nGO\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Cloud@123'\n\nCREATE DATABASE SCOPED CREDENTIAL serverlesspooltest_test\nWITH IDENTITY = 'SHARED ACCESS SIGNATURE',\nSECRET = '?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupyx&se=2022-10-07T13:50:42Z&st=2022-10-07T05:50:42Z&spr=https&sig=gTJQGCR9l9hVhgbSDwlz61MKxwRI6ATiGcNpQmWTZFc%3D' \nGO\n\nCREATE EXTERNAL DATA SOURCE DEMODATASOURCE WITH (\n    LOCATION = 'https://cloudconnectiongen2.dfs.core.windows.net/',\n    CREDENTIAL=serverlesspooltest_test\n);\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "serverlesspooltest",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Analyse Data 2",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP (100) [Passengercount]\n,[sumtripdistance]\n FROM [nyxtaxi].[dbo].[passengerdistance]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyxtaxi",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

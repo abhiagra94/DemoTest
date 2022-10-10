@@ -1,0 +1,17 @@
+{
+	"name": "External File Format Query",
+	"properties": {
+		"content": {
+			"query": "--Create an external file format for PARQUET files.\nCREATE EXTERNAL FILE FORMAT PARQUETFILEFORMAT\nWITH (\n         FORMAT_TYPE = PARQUET,\n        DATA_COMPRESSION = \n        'org.apache.hadoop.io.compress.SnappyCodec'\n      );",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "serverlesspool",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

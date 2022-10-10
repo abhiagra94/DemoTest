@@ -1,0 +1,17 @@
+{
+	"name": "Managed Identity",
+	"properties": {
+		"content": {
+			"query": "CREATE DATABASE SCOPED CREDENTIAL ManagedIdentityy\nWITH \n    IDENTITY='Managed Identity'\n\nGO\n\nCREATE EXTERNAL DATA SOURCE DEMODATASOURCEE WITH (\n    LOCATION = 'https://cloudconnectiongen2.dfs.core.windows.net/',\n    CREDENTIAL=ManagedIdentity\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "serverlesspooltest",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

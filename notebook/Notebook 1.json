@@ -1,0 +1,205 @@
+{
+	"name": "Notebook 1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Aparkpool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "34bf34d2-ecf6-4d30-b95f-cb599a468545"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"07932010-b3be-4b8f-879b-93c616a293d8": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"0": "1",
+										"1": "190167.33999999636"
+									},
+									{
+										"0": "6",
+										"1": "10741.91"
+									},
+									{
+										"0": "3",
+										"1": "14790.389999999987"
+									},
+									{
+										"0": "5",
+										"1": "17187.240000000013"
+									},
+									{
+										"0": "4",
+										"1": "8558.350000000004"
+									},
+									{
+										"0": "2",
+										"1": "49399.7400000001"
+									},
+									{
+										"0": "0",
+										"1": "0.4"
+									}
+								],
+								"schema": [
+									{
+										"key": "0",
+										"name": "Passengercount",
+										"type": "int"
+									},
+									{
+										"key": "1",
+										"name": "sumtripdistance",
+										"type": "double"
+									}
+								],
+								"truncated": false
+							},
+							"isSummary": false,
+							"language": "scala"
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "sum",
+									"categoryFieldKeys": [
+										"1"
+									],
+									"seriesFieldKeys": [
+										"0"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/8afc52d1-1f32-49ed-8707-623e663b1755/resourceGroups/cloudconnection/providers/Microsoft.Synapse/workspaces/cloudconnectionsynapse01/bigDataPools/Aparkpool",
+				"name": "Aparkpool",
+				"type": "Spark",
+				"endpoint": "https://cloudconnectionsynapse01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Aparkpool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.2",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"df=spark.read.load(\"abfss://input@cloudconnectiongen2.dfs.core.windows.net/folder/NYCTripSmall.parquet\",format='parquet')\r\n",
+					"display(df.limit(10))\r\n",
+					"\r\n",
+					""
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"spark.sql(\"CREATE DATABASE IF NOT EXISTS nyxtaxi\")\r\n",
+					"df.write.mode(\"overwrite\").saveAsTable(\"nyxtaxi.trip\")"
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"df=spark.sql(\"select * from nyxtaxi.trip \")\r\n",
+					"display(df)"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"\r\n",
+					"df=spark.sql(\"\"\"select Passengercount,sum(TripDistanceMiles) as sumtripdistance from nyxtaxi.trip where TripDistanceMiles>0\r\n",
+					"group by Passengercount\"\"\")\r\n",
+					"display(df)\r\n",
+					"df.write.saveAsTable(\"nyxtaxi.passengerdistance\")"
+				],
+				"execution_count": 9
+			}
+		]
+	}
+}

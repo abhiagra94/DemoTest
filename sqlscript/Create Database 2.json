@@ -1,0 +1,17 @@
+{
+	"name": "Create Database 2",
+	"properties": {
+		"content": {
+			"query": "CREATE DATABASE serverlesspool;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Analyse data",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n     Department_id,sum(Salary) as salary\nFROM\n    OPENROWSET(\n        BULK 'https://cloudconnectiongen2.dfs.core.windows.net/input/folder/Employee.csv',\n        FORMAT = 'CSV',\n          HEADER_ROW=TRUE,\n        PARSER_VERSION = '2.0'\n\n    ) AS [result]\n    Group by Department_id\n\n    \n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

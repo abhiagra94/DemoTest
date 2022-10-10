@@ -1,0 +1,17 @@
+{
+	"name": "Create External Table",
+	"properties": {
+		"content": {
+			"query": "CREATE SCHEMA NYCTaxi;\n\nCREATE EXTERNAL TABLE NYCTaxi.PassengerCountState\n    WITH (\n        LOCATION = 'input/aggdata2/',  \n        DATA_SOURCE = DEMODATASOURCEE,  \n        FILE_FORMAT = PARQUETFILEFORMAT  \n)\n    AS \n    select Passengercount,sum(TripDistanceMiles) as sumtripdistance FROM\n    OPENROWSET(\n        BULK 'https://cloudconnectiongen2.dfs.core.windows.net/input/folder/NYCTripSmall.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n    group by Passengercount\n\n    GO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "serverlesspooltest",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
